@@ -1,13 +1,10 @@
-/* Full-page style scroll + UI helpers */
+/* UI helpers — free smooth scrolling (no snap) */
 (function () {
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 
-  function setSnap() {
-    document.documentElement.classList.toggle("snap-on", !prefersReduced && !isMobile());
+  if (prefersReduced) {
+    document.documentElement.style.scrollBehavior = "auto";
   }
-  setSnap();
-  window.addEventListener("resize", setSnap);
 
   /* Mobile nav */
   const toggle = document.querySelector(".nav-toggle");
@@ -22,6 +19,25 @@
     });
   }
 
+  /* Smooth in-page anchor scroll (accounts for sticky header) */
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (e) => {
+      const id = anchor.getAttribute("href");
+      if (!id || id === "#") return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      const header = document.querySelector(".site-header");
+      const offset = (header ? header.offsetHeight : 0) + 12;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({
+        top,
+        behavior: prefersReduced ? "auto" : "smooth",
+      });
+      history.pushState(null, "", id);
+    });
+  });
+
   /* Reveal on scroll */
   const reveals = document.querySelectorAll(".reveal");
   if ("IntersectionObserver" in window) {
@@ -34,7 +50,7 @@
           }
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
     );
     reveals.forEach((el) => io.observe(el));
   } else {
@@ -65,75 +81,5 @@
         }
       }
     });
-  });
-
-  /* Wheel-assisted section snap (desktop) — unique full-page feel */
-  let locked = false;
-  const sections = () =>
-    Array.from(document.querySelectorAll(".snap-section")).filter((s) => {
-      const style = getComputedStyle(s);
-      return style.display !== "none" && s.offsetHeight > 0;
-    });
-
-  function currentIndex() {
-    const list = sections();
-    const mid = window.scrollY + window.innerHeight * 0.35;
-    let best = 0;
-    let bestDist = Infinity;
-    list.forEach((sec, i) => {
-      const dist = Math.abs(sec.offsetTop - mid);
-      if (dist < bestDist) {
-        bestDist = dist;
-        best = i;
-      }
-    });
-    return best;
-  }
-
-  function goTo(index) {
-    const list = sections();
-    if (index < 0 || index >= list.length) return;
-    locked = true;
-    list[index].scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "start" });
-    setTimeout(() => {
-      locked = false;
-    }, 850);
-  }
-
-  let wheelAccum = 0;
-  let wheelTimer;
-
-  window.addEventListener(
-    "wheel",
-    (e) => {
-      if (prefersReduced || isMobile() || locked) return;
-      if (Math.abs(e.deltaY) < 8) return;
-
-      wheelAccum += e.deltaY;
-      clearTimeout(wheelTimer);
-      wheelTimer = setTimeout(() => {
-        wheelAccum = 0;
-      }, 180);
-
-      if (Math.abs(wheelAccum) < 60) return;
-
-      const dir = wheelAccum > 0 ? 1 : -1;
-      wheelAccum = 0;
-      e.preventDefault();
-      goTo(currentIndex() + dir);
-    },
-    { passive: false }
-  );
-
-  /* Keyboard */
-  window.addEventListener("keydown", (e) => {
-    if (prefersReduced || isMobile() || locked) return;
-    if (["ArrowDown", "PageDown", " "].includes(e.key)) {
-      e.preventDefault();
-      goTo(currentIndex() + 1);
-    } else if (["ArrowUp", "PageUp"].includes(e.key)) {
-      e.preventDefault();
-      goTo(currentIndex() - 1);
-    }
   });
 })();

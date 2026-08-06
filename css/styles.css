@@ -35,11 +35,6 @@ html {
   scroll-behavior: smooth;
 }
 
-html.snap-on {
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-}
-
 body {
   font-family: var(--font);
   color: var(--text);
@@ -326,23 +321,17 @@ button {
   fill: currentColor;
 }
 
-/* ---------- Snap sections ---------- */
+/* ---------- Page sections ---------- */
 .snap-section {
-  min-height: 100vh;
-  min-height: 100dvh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-block: 5rem;
 }
 
 .snap-section.auto-height {
-  min-height: auto;
-  padding-block: 5rem;
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
+  padding-block: 3.5rem;
 }
 
 /* ---------- Hero ---------- */
@@ -352,6 +341,9 @@ button {
   text-align: center;
   overflow: hidden;
   padding-top: 0;
+  min-height: calc(100vh - var(--topbar-h) - var(--header-h));
+  min-height: calc(100dvh - var(--topbar-h) - var(--header-h));
+  justify-content: center;
 }
 
 .hero-bg {
@@ -403,7 +395,6 @@ button {
   background: var(--green);
   color: var(--white);
   padding: 1.5rem 0;
-  scroll-snap-align: start;
 }
 
 .product-bar-grid {
@@ -1204,14 +1195,8 @@ button {
     grid-template-columns: 1fr;
   }
 
-  html.snap-on {
-    scroll-snap-type: none;
-  }
-
   .snap-section {
-    min-height: auto;
-    padding-block: 4rem;
-    scroll-snap-align: none;
+    padding-block: 3.5rem;
   }
 
   .hero {
