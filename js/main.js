@@ -210,29 +210,54 @@
 
   tiltCards.forEach((card) => {
     let bounds = null;
+    let rafId = null;
+
+    function refreshBounds() {
+      bounds = card.getBoundingClientRect();
+    }
 
     card.addEventListener("mouseenter", () => {
-      bounds = card.getBoundingClientRect();
+      refreshBounds();
+      card.style.transition = "transform 0.08s ease-out, box-shadow 0.25s ease, border-color 0.25s ease";
     });
 
     card.addEventListener("mousemove", (e) => {
-      if (!bounds) bounds = card.getBoundingClientRect();
-      const x = e.clientX - bounds.left;
-      const y = e.clientY - bounds.top;
-      const pctX = (x / bounds.width) * 100;
-      const pctY = (y / bounds.height) * 100;
+      if (!bounds) refreshBounds();
 
-      card.style.setProperty("--mouse-x", `${pctX}%`);
-      card.style.setProperty("--mouse-y", `${pctY}%`);
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (!bounds) return;
+        const x = e.clientX - bounds.left;
+        const y = e.clientY - bounds.top;
 
-      const rotY = ((x / bounds.width) - 0.5) * 12;
-      const rotX = -((y / bounds.height) - 0.5) * 12;
+        const clampedX = Math.max(0, Math.min(bounds.width, x));
+        const clampedY = Math.max(0, Math.min(bounds.height, y));
 
-      card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(8px) scale(1.03)`;
+        const pctX = (clampedX / bounds.width) * 100;
+        const pctY = (clampedY / bounds.height) * 100;
+
+        card.style.setProperty("--mouse-x", `${pctX.toFixed(1)}%`);
+        card.style.setProperty("--mouse-y", `${pctY.toFixed(1)}%`);
+
+        const rotY = ((clampedX / bounds.width) - 0.5) * 14;
+        const rotX = -((clampedY / bounds.height) - 0.5) * 14;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(10px) scale(1.035)`;
+      });
     });
 
     card.addEventListener("mouseleave", () => {
+      if (rafId) cancelAnimationFrame(rafId);
       bounds = null;
+      card.style.transition = "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease";
+      card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)";
+      card.style.setProperty("--mouse-x", "50%");
+      card.style.setProperty("--mouse-y", "50%");
+    });
+  });
+
+  window.addEventListener("resize", () => {
+    tiltCards.forEach((card) => {
       card.style.transform = "";
     });
   });
@@ -335,7 +360,7 @@
   let height = 0;
   let dpr = window.devicePixelRatio || 1;
   let particles = [];
-  const PARTICLE_COUNT = Math.min(210, Math.max(140, Math.floor(window.innerWidth / 7.2)));
+  const PARTICLE_COUNT = Math.min(235, Math.max(160, Math.floor(window.innerWidth / 6.2)));
 
   function resizeCanvas() {
     dpr = window.devicePixelRatio || 1;
@@ -363,20 +388,39 @@
     reset() {
       this.z = 0.35 + Math.random() * 1.45;
 
-      // Categorize: 52% crisp white & luminous dust motes, 32% sunlit golden harvest pollen, 16% fresh emerald motes
+      // Categorize: 38% medium green motes, 38% crisp white dust, 24% sunlit golden harvest pollen
       const categoryRoll = Math.random();
 
-      if (categoryRoll < 0.52) {
+      if (categoryRoll < 0.38) {
+        // Medium-sized vibrant agricultural green motes
+        this.type = "green";
+        this.isBokeh = Math.random() < 0.08;
+        // Specifically medium-sized radius
+        this.radius = this.isBokeh
+          ? (3.0 + Math.random() * 2.5) * this.z
+          : (1.8 + Math.random() * 1.5) * this.z;
+        this.baseAlpha = this.isBokeh
+          ? (0.12 + Math.random() * 0.16)
+          : (0.28 + Math.random() * 0.44);
+
+        const greenPalettes = [
+          "106, 181, 95",  // brand vibrant green #6ab55f
+          "79, 154, 69",   // forest green #4f9a45
+          "92, 198, 85",   // fresh living leaf green
+          "120, 205, 95",  // sunlit harvest green
+          "72, 172, 88",   // lush crop emerald
+        ];
+        this.rgb = greenPalettes[Math.floor(Math.random() * greenPalettes.length)];
+      } else if (categoryRoll < 0.76) {
         // Crisp white and luminous atmospheric dust motes
         this.type = "dust";
-        this.isBokeh = Math.random() < 0.08;
-        // Delicate, fine floating white specks
+        this.isBokeh = Math.random() < 0.06;
         this.radius = this.isBokeh
-          ? (2.2 + Math.random() * 2.2) * this.z
+          ? (2.2 + Math.random() * 2.0) * this.z
           : (0.85 + Math.random() * 1.25) * this.z;
         this.baseAlpha = this.isBokeh
           ? (0.12 + Math.random() * 0.18)
-          : (0.28 + Math.random() * 0.52);
+          : (0.26 + Math.random() * 0.50);
 
         const whiteGreyPalettes = [
           "255, 255, 255", // crisp pure white
@@ -387,8 +431,8 @@
           "218, 225, 232", // pale misty grey
         ];
         this.rgb = whiteGreyPalettes[Math.floor(Math.random() * whiteGreyPalettes.length)];
-      } else if (categoryRoll < 0.84) {
-        // Sunlit golden pollen
+      } else {
+        // Sunlit golden harvest pollen
         this.type = "pollen";
         this.isBokeh = Math.random() < 0.14;
         this.radius = this.isBokeh
@@ -405,23 +449,6 @@
           "250, 210, 75",  // luminous sunbeam gold
         ];
         this.rgb = goldPalettes[Math.floor(Math.random() * goldPalettes.length)];
-      } else {
-        // Vibrant emerald agricultural green
-        this.type = "green";
-        this.isBokeh = Math.random() < 0.08;
-        this.radius = this.isBokeh
-          ? (2.8 + Math.random() * 3.0) * this.z
-          : (1.1 + Math.random() * 1.8) * this.z;
-        this.baseAlpha = this.isBokeh
-          ? (0.08 + Math.random() * 0.12)
-          : (0.18 + Math.random() * 0.50);
-
-        const greenPalettes = [
-          "106, 181, 95",  // brand vibrant green #6ab55f
-          "79, 154, 69",   // forest green #4f9a45
-          "180, 215, 95",  // sunlit agricultural green
-        ];
-        this.rgb = greenPalettes[Math.floor(Math.random() * greenPalettes.length)];
       }
 
       this.alpha = this.baseAlpha;
@@ -531,6 +558,11 @@
           ctx.fillStyle = `rgba(${this.rgb}, ${Math.max(0, this.alpha * 0.14)})`;
           ctx.fill();
         }
+      } else if (this.type === "green" && this.z > 0.85) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius * 2.0, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${this.rgb}, ${Math.max(0, this.alpha * 0.16)})`;
+        ctx.fill();
       } else if (!this.isBokeh && this.z > 1.1) {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius * 2.2, 0, Math.PI * 2);
