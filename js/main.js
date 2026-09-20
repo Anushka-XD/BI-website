@@ -360,7 +360,7 @@
   let height = 0;
   let dpr = window.devicePixelRatio || 1;
   let particles = [];
-  const PARTICLE_COUNT = Math.min(150, Math.max(95, Math.floor(window.innerWidth / 9.5)));
+  const PARTICLE_COUNT = Math.min(180, Math.max(130, Math.floor(window.innerWidth / 8.5)));
 
   function resizeCanvas() {
     dpr = window.devicePixelRatio || 1;
