@@ -360,7 +360,7 @@
   let height = 0;
   let dpr = window.devicePixelRatio || 1;
   let particles = [];
-  const PARTICLE_COUNT = Math.min(195, Math.max(130, Math.floor(window.innerWidth / 7.5)));
+  const PARTICLE_COUNT = Math.min(150, Math.max(95, Math.floor(window.innerWidth / 9.5)));
 
   function resizeCanvas() {
     dpr = window.devicePixelRatio || 1;
@@ -388,31 +388,11 @@
     reset() {
       this.z = 0.35 + Math.random() * 1.45;
 
-      // Categorize: 38% medium green motes, 38% crisp white dust, 24% sunlit golden harvest pollen
+      // Categorize: 72% crisp white & atmospheric grey dust, 15% fresh green motes, 13% sunlit golden harvest pollen
       const categoryRoll = Math.random();
 
-      if (categoryRoll < 0.38) {
-        // Medium-sized vibrant agricultural green motes
-        this.type = "green";
-        this.isBokeh = Math.random() < 0.08;
-        // Specifically medium-sized radius
-        this.radius = this.isBokeh
-          ? (3.0 + Math.random() * 2.5) * this.z
-          : (1.8 + Math.random() * 1.5) * this.z;
-        this.baseAlpha = this.isBokeh
-          ? (0.12 + Math.random() * 0.16)
-          : (0.28 + Math.random() * 0.44);
-
-        const greenPalettes = [
-          "106, 181, 95",  // brand vibrant green #6ab55f
-          "79, 154, 69",   // forest green #4f9a45
-          "92, 198, 85",   // fresh living leaf green
-          "120, 205, 95",  // sunlit harvest green
-          "72, 172, 88",   // lush crop emerald
-        ];
-        this.rgb = greenPalettes[Math.floor(Math.random() * greenPalettes.length)];
-      } else if (categoryRoll < 0.76) {
-        // Crisp white and luminous atmospheric dust motes
+      if (categoryRoll < 0.72) {
+        // Crisp white, luminous pearl, and soft misty grey dust motes
         this.type = "dust";
         this.isBokeh = Math.random() < 0.06;
         this.radius = this.isBokeh
@@ -428,19 +408,40 @@
           "250, 252, 255", // luminous pearl white
           "245, 248, 252", // radiant starlight white
           "235, 240, 246", // soft silver white
-          "218, 225, 232", // pale misty grey
+          "220, 228, 236", // pale misty grey
+          "205, 215, 225", // gentle atmospheric slate grey
+          "195, 205, 218", // soft cool grey
         ];
         this.rgb = whiteGreyPalettes[Math.floor(Math.random() * whiteGreyPalettes.length)];
+      } else if (categoryRoll < 0.87) {
+        // Fresh green motes (reduced to ~15%)
+        this.type = "green";
+        this.isBokeh = Math.random() < 0.08;
+        this.radius = this.isBokeh
+          ? (2.8 + Math.random() * 2.2) * this.z
+          : (1.6 + Math.random() * 1.3) * this.z;
+        this.baseAlpha = this.isBokeh
+          ? (0.10 + Math.random() * 0.15)
+          : (0.24 + Math.random() * 0.38);
+
+        const greenPalettes = [
+          "106, 181, 95",  // brand vibrant green #6ab55f
+          "79, 154, 69",   // forest green #4f9a45
+          "92, 198, 85",   // fresh living leaf green
+          "120, 205, 95",  // sunlit harvest green
+          "72, 172, 88",   // lush crop emerald
+        ];
+        this.rgb = greenPalettes[Math.floor(Math.random() * greenPalettes.length)];
       } else {
-        // Sunlit golden harvest pollen
+        // Sunlit golden harvest pollen (reduced to ~13%)
         this.type = "pollen";
         this.isBokeh = Math.random() < 0.14;
         this.radius = this.isBokeh
-          ? (3.0 + Math.random() * 3.5) * this.z
-          : (1.2 + Math.random() * 2.0) * this.z;
+          ? (2.8 + Math.random() * 3.0) * this.z
+          : (1.1 + Math.random() * 1.8) * this.z;
         this.baseAlpha = this.isBokeh
           ? (0.07 + Math.random() * 0.12)
-          : (0.18 + Math.random() * 0.52);
+          : (0.16 + Math.random() * 0.46);
 
         const goldPalettes = [
           "245, 195, 60",  // rich sunlit gold
