@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bhartiya Industries — Nurturing Nature, Nourishing Lives</title>
-  <meta name="description" content="Bhartiya Industries — premium rice milling and export. Sharbati, Basmati, PR11, and Traditional Basmati." />
+  <title>Bhartiya Industries Nurturing Nature, Nourishing Lives</title>
+  <meta name="description"
+    content="Bhartiya Industries — premium rice milling and export. Sharbati, Basmati, PR11, and Traditional Basmati." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="icon" href="images/logo.png" />
 </head>
+
 <body>
+  <!-- Ambient living particle canvas & scroll progress -->
+  <div class="scroll-progress-line" id="scroll-progress" aria-hidden="true"></div>
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
   <!-- Top bar -->
   <div class="topbar">
     <div class="container">
@@ -20,23 +27,43 @@
         <a href="tel:+919467280001">+91 94672 80001</a>
       </div>
       <div class="topbar-social">
-        <a href="https://www.facebook.com/profile.php?id=61555875476456" target="_blank" rel="noopener" aria-label="Facebook">
-          <svg viewBox="0 0 24 24"><path d="M14 8h3V5h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4V9c0-.6.4-1 1-1z"/></svg>
+        <a href="https://www.facebook.com/profile.php?id=61555875476456" target="_blank" rel="noopener"
+          aria-label="Facebook">
+          <svg viewBox="0 0 24 24">
+            <path d="M14 8h3V5h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4V9c0-.6.4-1 1-1z" />
+          </svg>
         </a>
         <a href="https://www.instagram.com/bhartiyaindustries/" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm6.5-.9a1.1 1.1 0 11-2.2 0 1.1 1.1 0 012.2 0zM12 9a3 3 0 110 6 3 3 0 010-6z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm6.5-.9a1.1 1.1 0 11-2.2 0 1.1 1.1 0 012.2 0zM12 9a3 3 0 110 6 3 3 0 010-6z" />
+          </svg>
         </a>
-        <a href="https://www.youtube.com/channel/UCNRLQwWhMKjb4azKdz9olEw" target="_blank" rel="noopener" aria-label="YouTube">
-          <svg viewBox="0 0 24 24"><path d="M23 12s0-3.4-.4-5c-.2-.9-.9-1.6-1.8-1.8C18.9 4.6 12 4.6 12 4.6s-6.9 0-8.8.6C2.3 5.4 1.6 6.1 1.4 7 1 8.6 1 12 1 12s0 3.4.4 5c.2.9.9 1.6 1.8 1.8 1.9.6 8.8.6 8.8.6s6.9 0 8.8-.6c.9-.2 1.6-.9 1.8-1.8.4-1.6.4-5 .4-5zM9.8 15.5v-7l6 3.5-6 3.5z"/></svg>
+        <a href="https://www.youtube.com/channel/UCNRLQwWhMKjb4azKdz9olEw" target="_blank" rel="noopener"
+          aria-label="YouTube">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M23 12s0-3.4-.4-5c-.2-.9-.9-1.6-1.8-1.8C18.9 4.6 12 4.6 12 4.6s-6.9 0-8.8.6C2.3 5.4 1.6 6.1 1.4 7 1 8.6 1 12 1 12s0 3.4.4 5c.2.9.9 1.6 1.8 1.8 1.9.6 8.8.6 8.8.6s6.9 0 8.8-.6c.9-.2 1.6-.9 1.8-1.8.4-1.6.4-5 .4-5zM9.8 15.5v-7l6 3.5-6 3.5z" />
+          </svg>
         </a>
-        <a href="https://www.linkedin.com/company/bhartiyaindustries/about/?viewAsMember=true" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24"><path d="M6.5 8.5H3V21h3.5V8.5zM4.8 3A2 2 0 102 5a2 2 0 002.8-2zM21 21h-3.5v-6.1c0-1.7-.7-2.3-1.7-2.3s-1.9.8-1.9 2.4V21H10.5V8.5H14v1.4c.5-.9 1.7-1.8 3.5-1.8 2.6 0 3.5 1.5 3.5 4.4V21z"/></svg>
+        <a href="https://www.linkedin.com/company/bhartiyaindustries/about/?viewAsMember=true" target="_blank"
+          rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M6.5 8.5H3V21h3.5V8.5zM4.8 3A2 2 0 102 5a2 2 0 002.8-2zM21 21h-3.5v-6.1c0-1.7-.7-2.3-1.7-2.3s-1.9.8-1.9 2.4V21H10.5V8.5H14v1.4c.5-.9 1.7-1.8 3.5-1.8 2.6 0 3.5 1.5 3.5 4.4V21z" />
+          </svg>
         </a>
         <a href="https://x.com/bhartiyain77477" target="_blank" rel="noopener" aria-label="X">
-          <svg viewBox="0 0 24 24"><path d="M18.2 2H21l-6.6 7.5L22 22h-6.2l-4.3-6.3L6 22H3.2l7-8L2 2h6.3l3.9 5.8L18.2 2zm-1.1 18h1.7L7 3.9H5.2L17.1 20z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M18.2 2H21l-6.6 7.5L22 22h-6.2l-4.3-6.3L6 22H3.2l7-8L2 2h6.3l3.9 5.8L18.2 2zm-1.1 18h1.7L7 3.9H5.2L17.1 20z" />
+          </svg>
         </a>
         <a href="https://www.quora.com/profile/Bhartiya-Industries" target="_blank" rel="noopener" aria-label="Quora">
-          <svg viewBox="0 0 24 24"><path d="M12.5 2C7.8 2 4 5.8 4 10.5c0 3.5 2.1 6.5 5.1 7.9L7.5 22l4.2-2.1c.3 0 .5.1.8.1 4.7 0 8.5-3.8 8.5-8.5S17.2 2 12.5 2zm.1 13.8c-1.1 0-2.1-.3-2.9-.9l-.7.5-.5-1.5.9-.6c-.5-.6-.8-1.4-.8-2.3 0-2.1 1.7-3.8 3.9-3.8 1.5 0 2.8.8 3.4 2l-1.3.7c-.3-.7-1-1.1-1.9-1.1-1.2 0-2.1.9-2.1 2.1s.9 2.1 2.1 2.1c.8 0 1.5-.4 1.9-1l1.3.7c-.6 1.2-1.9 2.1-3.4 2.1z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12.5 2C7.8 2 4 5.8 4 10.5c0 3.5 2.1 6.5 5.1 7.9L7.5 22l4.2-2.1c.3 0 .5.1.8.1 4.7 0 8.5-3.8 8.5-8.5S17.2 2 12.5 2zm.1 13.8c-1.1 0-2.1-.3-2.9-.9l-.7.5-.5-1.5.9-.6c-.5-.6-.8-1.4-.8-2.3 0-2.1 1.7-3.8 3.9-3.8 1.5 0 2.8.8 3.4 2l-1.3.7c-.3-.7-1-1.1-1.9-1.1-1.2 0-2.1.9-2.1 2.1s.9 2.1 2.1 2.1c.8 0 1.5-.4 1.9-1l1.3.7c-.6 1.2-1.9 2.1-3.4 2.1z" />
+          </svg>
         </a>
       </div>
     </div>
@@ -59,14 +86,24 @@
   <!-- Sticky rail -->
   <aside class="contact-rail" aria-label="Quick contact">
     <a class="rail-contact" href="#enquiry">
-      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5L4 8V6l8 5 8-5v2z"/></svg>
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5L4 8V6l8 5 8-5v2z" />
+      </svg>
       Contact Us
     </a>
     <a class="rail-wa" href="https://wa.me/919467280001" target="_blank" rel="noopener" aria-label="WhatsApp">
-      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15l-1.1 4 4.1-1.1A10 10 0 1012 2zm5.6 14.2c-.2.7-1.2 1.2-2 1.4-.5.1-1.2.2-3.5-.7-2.8-1.2-4.6-4.1-4.8-4.3-.1-.2-1.2-1.6-1.2-3s.8-2.1 1-2.4c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2 0 .4-.1.5l-.4.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.3 2.5 1.5.3.1.5.1.7-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.8c.2.1.4.2.4.4 0 .2 0 .9-.3 1.5z"/></svg>
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M12 2a10 10 0 00-8.6 15l-1.1 4 4.1-1.1A10 10 0 1012 2zm5.6 14.2c-.2.7-1.2 1.2-2 1.4-.5.1-1.2.2-3.5-.7-2.8-1.2-4.6-4.1-4.8-4.3-.1-.2-1.2-1.6-1.2-3s.8-2.1 1-2.4c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2 0 .4-.1.5l-.4.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.3 2.5 1.5.3.1.5.1.7-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.8c.2.1.4.2.4.4 0 .2 0 .9-.3 1.5z" />
+      </svg>
     </a>
-    <a class="rail-msg" href="https://www.facebook.com/profile.php?id=61555875476456" target="_blank" rel="noopener" aria-label="Messenger">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.1 2 11.2c0 2.9 1.4 5.4 3.7 7.1V22l3.4-1.9c.9.3 1.9.4 2.9.4 5.5 0 10-4.1 10-9.3S17.5 2 12 2zm1 12.5l-2.5-2.7-4.9 2.7 5.4-5.7 2.6 2.7 4.8-2.7-5.4 5.7z"/></svg>
+    <a class="rail-msg" href="https://www.facebook.com/profile.php?id=61555875476456" target="_blank" rel="noopener"
+      aria-label="Messenger">
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M12 2C6.5 2 2 6.1 2 11.2c0 2.9 1.4 5.4 3.7 7.1V22l3.4-1.9c.9.3 1.9.4 2.9.4 5.5 0 10-4.1 10-9.3S17.5 2 12 2zm1 12.5l-2.5-2.7-4.9 2.7 5.4-5.7 2.6 2.7 4.8-2.7-5.4 5.7z" />
+      </svg>
     </a>
   </aside>
 
@@ -75,8 +112,9 @@
     <section class="hero snap-section">
       <div class="hero-bg" style="background-image: url('images/paddy-green.jpg')"></div>
       <div class="hero-content reveal">
-        <h1>Welcome to Bhartiya Industries — Nurturing Nature, Nourishing Lives</h1>
-        <p>At Bhartiya Industries, we invite you to embark on a journey where every grain tells a story of excellence.</p>
+        <h1>Welcome to Bhartiya Industries-Nurturing Nature, Nourishing Lives</h1>
+        <p>At Bhartiya Industries, we invite you to embark on a journey where every grain tells a story of excellence.
+        </p>
         <div class="hero-actions">
           <a class="btn btn-green" href="#enquiry">Contact Us</a>
           <a class="btn btn-white" href="about.html">About Us</a>
@@ -89,25 +127,44 @@
       <div class="container product-bar-grid">
         <a href="#rice-sharbati">
           <div class="product-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 3c-2 3-4 5-4 8a4 4 0 008 0c0-3-2-5-4-8z"/><path d="M8 20h8"/><path d="M12 15v5"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3c-2 3-4 5-4 8a4 4 0 008 0c0-3-2-5-4-8z" />
+              <path d="M8 20h8" />
+              <path d="M12 15v5" />
+            </svg>
           </div>
           <span>Sharbati Rice</span>
         </a>
         <a href="#rice-basmati">
           <div class="product-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 21V10"/><path d="M7 11c2-4 5-6 5-6s3 2 5 6"/><path d="M5 21h14"/><path d="M9 14c1.5 1 3 1 6 0"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 21V10" />
+              <path d="M7 11c2-4 5-6 5-6s3 2 5 6" />
+              <path d="M5 21h14" />
+              <path d="M9 14c1.5 1 3 1 6 0" />
+            </svg>
           </div>
           <span>Basmati Farming</span>
         </a>
         <a href="#rice-pr11">
           <div class="product-icon">
-            <svg viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="7" ry="4"/><path d="M5 14V10c0-2 3-4 7-4s7 2 7 4v4"/><path d="M12 6V3"/></svg>
+            <svg viewBox="0 0 24 24">
+              <ellipse cx="12" cy="14" rx="7" ry="4" />
+              <path d="M5 14V10c0-2 3-4 7-4s7 2 7 4v4" />
+              <path d="M12 6V3" />
+            </svg>
           </div>
           <span>PR11 Rice</span>
         </a>
         <a href="#rice-traditional">
           <div class="product-icon">
-            <svg viewBox="0 0 24 24"><path d="M4 18c2-3 4-6 4-9"/><path d="M8 18c2-3 4-6 4-9"/><path d="M12 18c2-3 4-6 4-9"/><path d="M16 18c2-2 3-5 3-8"/><path d="M3 20h18"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path d="M4 18c2-3 4-6 4-9" />
+              <path d="M8 18c2-3 4-6 4-9" />
+              <path d="M12 18c2-3 4-6 4-9" />
+              <path d="M16 18c2-2 3-5 3-8" />
+              <path d="M3 20h18" />
+            </svg>
           </div>
           <span>Traditional Basmati</span>
         </a>
@@ -120,7 +177,10 @@
         <div class="split-copy">
           <p class="section-label">Who we are</p>
           <h2 class="section-title">Explore Our Rich Legacy</h2>
-          <p class="section-text">Founded in 1965 by the visionary Shri Surender Kumar Gupta (Kaka), Bhartiya Industries has been at the forefront of the rice milling industry, weaving a legacy of tradition, quality, and innovation. Today, led by Vice President Prateek Gupta, our commitment to excellence continues to shape the future of agriculture.</p>
+          <p class="section-text">Founded in 1965 by the visionary Shri Surender Kumar Gupta (Kaka), Bhartiya Industries
+            has been at the forefront of the rice milling industry, weaving a legacy of tradition, quality, and
+            innovation. Today, led by Vice President Prateek Gupta, our commitment to excellence continues to shape the
+            future of agriculture.</p>
           <a class="btn btn-green mt-2" href="about.html">About Us</a>
         </div>
         <div class="split-media">
@@ -139,36 +199,60 @@
     <section class="snap-section pattern-bg" id="varieties">
       <div class="container reveal">
         <h2 class="section-title text-center">Discover Our Premium Rice Varieties:</h2>
-        <p class="section-text center">Indulge your senses in the aromatic world of Bhartiya Industries' rice. From the fragrant Sharbati and Sugandha to the time-honored Traditional Basmati and the versatile PR11, each grain reflects the meticulous care taken in cultivation and milling.</p>
+        <p class="section-text center">Indulge your senses in the aromatic world of Bhartiya Industries' rice. From the
+          fragrant Sharbati and Sugandha to the time-honored Traditional Basmati and the versatile PR11, each grain
+          reflects the meticulous care taken in cultivation and milling.</p>
         <div class="feature-cards">
           <article class="feature-card">
             <div class="card-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 3c-2 3-4 5-4 8a4 4 0 008 0c0-3-2-5-4-8z"/><path d="M8 20h8"/><path d="M12 15v5"/></svg>
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3c-2 3-4 5-4 8a4 4 0 008 0c0-3-2-5-4-8z" />
+                <path d="M8 20h8" />
+                <path d="M12 15v5" />
+              </svg>
             </div>
             <h3>Sustainable Farming Practices</h3>
-            <p>Experience agriculture in harmony with nature. We are committed to sustainable farming, water management, and community development for a greener, more resilient planet.</p>
+            <p>Experience agriculture in harmony with nature. We are committed to sustainable farming, water management,
+              and community development for a greener, more resilient planet.</p>
             <a class="card-arrow" href="#sustainable" aria-label="Learn more">
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              <svg viewBox="0 0 24 24">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </a>
           </article>
           <article class="feature-card featured">
             <div class="card-icon">
-              <svg viewBox="0 0 24 24"><rect x="3" y="10" width="14" height="7" rx="1"/><path d="M17 13h3l1 2v2h-4"/><circle cx="7" cy="18" r="2"/><circle cx="16" cy="18" r="2"/><path d="M3 10l3-5h6l2 5"/></svg>
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="10" width="14" height="7" rx="1" />
+                <path d="M17 13h3l1 2v2h-4" />
+                <circle cx="7" cy="18" r="2" />
+                <circle cx="16" cy="18" r="2" />
+                <path d="M3 10l3-5h6l2 5" />
+              </svg>
             </div>
-            <h3>State-of-the-Art Milling</h3>
-            <p>Our facility boasts cutting-edge Bhuller and Stake machines, Sortex technology, and a complete online paddy-to-rice plant — precision at every stage.</p>
+            <h3>State of the Art Milling</h3>
+            <p>Our facility boasts cutting-edge Bhuller and Stake machines, Sortex technology, and a complete online
+              paddy-to-rice plant precision at every stage.</p>
             <a class="card-arrow" href="about.html" aria-label="Learn more">
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              <svg viewBox="0 0 24 24">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </a>
           </article>
           <article class="feature-card">
             <div class="card-icon">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" />
+              </svg>
             </div>
             <h3>Global Recognition</h3>
-            <p>While rooted in Indian soil, our premium rice varieties are exported worldwide, spreading the richness of Indian agriculture to appreciative customers.</p>
+            <p>While rooted in Indian soil, our premium rice varieties are exported worldwide, spreading the richness of
+              Indian agriculture to appreciative customers.</p>
             <a class="card-arrow" href="#global" aria-label="Learn more">
-              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              <svg viewBox="0 0 24 24">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </a>
           </article>
         </div>
@@ -180,7 +264,9 @@
       <div class="banner-bg" style="background-image: url('images/sunset-field.jpg')"></div>
       <div class="banner-content reveal">
         <h2>Stay Updated with Bhartiya Industries:</h2>
-        <p>Follow us on social media platforms — Instagram, Twitter, and LinkedIn — for the latest updates, industry insights, and engaging content. Join our growing community and be part of the conversation around agriculture, quality, and sustainability.</p>
+        <p>Follow us on social media platforms- Instagram, Twitter, and LinkedIn for the latest updates, industry
+          insights, and engaging content. Join our growing community and be part of the conversation around agriculture,
+          quality, and sustainability.</p>
         <a class="btn btn-green" href="#enquiry">Contact Us</a>
       </div>
     </section>
@@ -189,7 +275,9 @@
     <section class="snap-section centered-block" id="global">
       <div class="container reveal">
         <h2>Global Recognition and Outreach:</h2>
-        <p class="section-text center">While rooted in Indian soil, Bhartiya Industries has earned recognition worldwide. Our premium rice varieties are exported to diverse corners of the globe, spreading the richness of Indian agriculture to appreciative customers.</p>
+        <p class="section-text center">While rooted in Indian soil, Bhartiya Industries has earned recognition
+          worldwide. Our premium rice varieties are exported to diverse corners of the globe, spreading the richness of
+          Indian agriculture to appreciative customers.</p>
         <div class="map-wrap">
           <img src="images/map.png" alt="World map showing global outreach" />
         </div>
@@ -201,7 +289,8 @@
       <div class="banner-bg" style="background-image: url('images/rice-plant.jpg')"></div>
       <div class="banner-content reveal">
         <h2>Premium Quality Varieties:</h2>
-        <p>Bhartiya Industries takes pride in offering a diverse range of premium rice varieties, meticulously cultivated and processed to ensure unparalleled quality and flavor.</p>
+        <p>Bhartiya Industries takes pride in offering a diverse range of premium rice varieties, meticulously
+          cultivated and processed to ensure unparalleled quality and flavor.</p>
         <a class="btn btn-green" href="#enquiry">Contact Now</a>
       </div>
     </section>
@@ -218,11 +307,16 @@
         <div class="split-copy">
           <p class="section-label">Bhartiya Industries</p>
           <h2 class="section-title">Sustainable Farming Practices:</h2>
-          <p class="section-text">Embracing eco-friendly and sustainable farming methods, Bhartiya Industries is dedicated to reducing environmental impact, conserving resources, and promoting a healthier agricultural ecosystem.</p>
+          <p class="section-text">Embracing eco-friendly and sustainable farming methods, Bhartiya Industries is
+            dedicated to reducing environmental impact, conserving resources, and promoting a healthier agricultural
+            ecosystem.</p>
           <div class="feature-grid">
             <div class="feature-item">
               <div class="mini-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 3c-2 3-4 5-4 8a4 4 0 008 0c0-3-2-5-4-8z"/><path d="M8 20h8"/></svg>
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 3c-2 3-4 5-4 8a4 4 0 008 0c0-3-2-5-4-8z" />
+                  <path d="M8 20h8" />
+                </svg>
               </div>
               <div>
                 <h4>Premium Quality:</h4>
@@ -231,7 +325,10 @@
             </div>
             <div class="feature-item">
               <div class="mini-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 21V10"/><path d="M7 11c2-4 5-6 5-6s3 2 5 6"/></svg>
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 21V10" />
+                  <path d="M7 11c2-4 5-6 5-6s3 2 5 6" />
+                </svg>
               </div>
               <div>
                 <h4>Sustainable Farming:</h4>
@@ -240,7 +337,11 @@
             </div>
             <div class="feature-item">
               <div class="mini-icon">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" />
+                </svg>
               </div>
               <div>
                 <h4>Cutting-Edge Milling:</h4>
@@ -249,7 +350,10 @@
             </div>
             <div class="feature-item">
               <div class="mini-icon">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/></svg>
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M3 12h18" />
+                </svg>
               </div>
               <div>
                 <h4>Global Recognition:</h4>
@@ -274,19 +378,24 @@
         <div class="split-copy">
           <p class="section-label">Our Products</p>
           <h2 class="section-title">Sharbati Rice</h2>
-          <p class="section-text">Often referred to as the “queen of fragrance,” Sharbati is a special medium-grain variety from the fertile plains of India — cherished for its aromatic nature, tender texture, and delightful taste.</p>
+          <p class="section-text">Often referred to as the “queen of fragrance,” Sharbati is a special medium-grain
+            variety from the fertile plains of India cherished for its aromatic nature, tender texture, and delightful
+            taste.</p>
           <div class="rice-meta">
             <span class="chip">Aromatic</span>
             <span class="chip">Medium grain</span>
             <span class="chip">Nutrient-rich</span>
           </div>
           <ul class="rice-points">
-            <li><strong>Aroma that Captivates</strong> — natural fragrance that elevates every dish.</li>
-            <li><strong>Tender Texture</strong> — grains stay separate and fluffy when cooked; ideal for biryanis and pilafs.</li>
-            <li><strong>Nutrient-Rich Goodness</strong> — a good source of carbohydrates, vitamins, and minerals.</li>
-            <li><strong>Quality Assured</strong> — rigorous testing from cultivation to processing, ethically sourced.</li>
+            <li><strong>Aroma that Captivates</strong> natural fragrance that elevates every dish.</li>
+            <li><strong>Tender Texture</strong> grains stay separate and fluffy when cooked; ideal for biryanis and
+              pilafs.</li>
+            <li><strong>Nutrient-Rich Goodness</strong> a good source of carbohydrates, vitamins, and minerals.</li>
+            <li><strong>Quality Assured</strong> rigorous testing from cultivation to processing, ethically sourced.
+            </li>
           </ul>
-          <p class="section-text" style="margin-bottom: 1rem;">Try it in vegetable biryani, jeera rice, or creamy kheer — every grain delivers a sensory culinary journey.</p>
+          <p class="section-text" style="margin-bottom: 1rem;">Try it in vegetable biryani, jeera rice, or creamy kheer
+            every grain delivers a sensory culinary journey.</p>
           <a class="btn btn-green" href="#enquiry">Enquire Now</a>
         </div>
       </div>
@@ -303,18 +412,23 @@
         <div class="split-copy">
           <p class="section-label">Our Products</p>
           <h2 class="section-title">Basmati Farming</h2>
-          <p class="section-text">Known for its distinct aroma, long grains, and fluffy texture, Basmati has been a culinary treasure for centuries. Cultivated primarily in the fertile regions of the Indian subcontinent, its allure lies in unique fragrance and delicate flavour.</p>
+          <p class="section-text">Known for its distinct aroma, long grains, and fluffy texture, Basmati has been a
+            culinary treasure for centuries. Cultivated primarily in the fertile regions of the Indian subcontinent, its
+            allure lies in unique fragrance and delicate flavour.</p>
           <div class="rice-meta">
             <span class="chip">Long grain</span>
             <span class="chip">Organic practices</span>
             <span class="chip">Sun-dried</span>
           </div>
           <ul class="rice-points">
-            <li><strong>Ideal Growing Conditions</strong> — fertile alluvial soil, sunlight, and balanced water in the Basmati belt.</li>
-            <li><strong>Seed Selection</strong> — high-quality certified seeds preserving genetic integrity.</li>
-            <li><strong>Water Management</strong> — careful irrigation for long, slender, aromatic grains.</li>
-            <li><strong>Organic &amp; Traditional</strong> — organic alternatives over synthetic chemicals; traditional sun-drying after harvest.</li>
-            <li><strong>Milling Excellence</strong> — state-of-the-art milling with Sortex sorting for purity and cleanliness.</li>
+            <li><strong>Ideal Growing Conditions</strong> fertile alluvial soil, sunlight, and balanced water in the
+              Basmati belt.</li>
+            <li><strong>Seed Selection</strong> high-quality certified seeds preserving genetic integrity.</li>
+            <li><strong>Water Management</strong> careful irrigation for long, slender, aromatic grains.</li>
+            <li><strong>Organic &amp; Traditional</strong> organic alternatives over synthetic chemicals; traditional
+              sun-drying after harvest.</li>
+            <li><strong>Milling Excellence</strong> state of the art milling with Sortex sorting for purity and
+              cleanliness.</li>
           </ul>
           <a class="btn btn-green" href="#enquiry">Enquire Now</a>
         </div>
@@ -332,19 +446,25 @@
         <div class="split-copy">
           <p class="section-label">Our Products</p>
           <h2 class="section-title">PR11 Rice</h2>
-          <p class="section-text">Also known as Pusa Basmati 1121, PR11 is a long-grain variety developed by the Indian Agricultural Research Institute (IARI). Cross-bred from Basmati and traditional rice, it offers a slender, aromatic grain prized for exceptional taste and texture.</p>
+          <p class="section-text">Also known as Pusa Basmati 1121, PR11 is a long-grain variety developed by the Indian
+            Agricultural Research Institute (IARI). Cross-bred from Basmati and traditional rice, it offers a slender,
+            aromatic grain prized for exceptional taste and texture.</p>
           <div class="rice-meta">
             <span class="chip">Up to 8.2 mm</span>
             <span class="chip">Non-sticky</span>
             <span class="chip">Basmati blend</span>
           </div>
           <ul class="rice-points">
-            <li><strong>Physical Attributes</strong> — long, slender grains with a delicate non-sticky texture and Basmati-like aroma.</li>
-            <li><strong>Cultivation</strong> — ideal soil and irrigation, with organic methods that minimise synthetic inputs.</li>
-            <li><strong>Varieties</strong> — Pure PR11 Rice for authentic flavour; PR11 Basmati Blend for aromatic notes of both worlds.</li>
-            <li><strong>Health Benefits</strong> — essential carbohydrates, protein, and fibre for a wholesome diet.</li>
+            <li><strong>Physical Attributes</strong> long, slender grains with a delicate non-sticky texture and
+              Basmati-like aroma.</li>
+            <li><strong>Cultivation</strong> ideal soil and irrigation, with organic methods that minimise synthetic
+              inputs.</li>
+            <li><strong>Varieties</strong> Pure PR11 Rice for authentic flavour; PR11 Basmati Blend for aromatic notes
+              of both worlds.</li>
+            <li><strong>Health Benefits</strong> essential carbohydrates, protein, and fibre for a wholesome diet.</li>
           </ul>
-          <p class="section-text" style="margin-bottom: 1rem;">Perfect for fluffy biryanis and aromatic pilafs — a culinary marvel in every pack.</p>
+          <p class="section-text" style="margin-bottom: 1rem;">Perfect for fluffy biryanis and aromatic pilafs a
+            culinary marvel in every pack.</p>
           <a class="btn btn-green" href="#enquiry">Enquire Now</a>
         </div>
       </div>
@@ -361,20 +481,24 @@
         <div class="split-copy">
           <p class="section-label">Our Products</p>
           <h2 class="section-title">Traditional Basmati</h2>
-          <p class="section-text">Often called the “Queen of Fragrance,” Traditional Basmati stands as a symbol of culinary excellence. Cultivated for centuries in the Himalayan foothills, unique geography and climate give it its distinct aroma and long grains.</p>
+          <p class="section-text">Often called the “Queen of Fragrance,” Traditional Basmati stands as a symbol of
+            culinary excellence. Cultivated for centuries in the Himalayan foothills, unique geography and climate give
+            it its distinct aroma and long grains.</p>
           <div class="rice-meta">
             <span class="chip">GI tagged</span>
             <span class="chip">Organic</span>
             <span class="chip">Gluten-free</span>
           </div>
           <ul class="rice-points">
-            <li><strong>Exceptional Aroma</strong> — sweet, nutty fragrance released during cooking.</li>
-            <li><strong>Long Grain Structure</strong> — elongates further when cooked into fluffy, separate grains.</li>
-            <li><strong>Delicate Flavour</strong> — complements dishes without overpowering other ingredients.</li>
-            <li><strong>GI Tagged Farms</strong> — sourced from Geographical Indication tagged regions for authenticity.</li>
-            <li><strong>Organic Farming</strong> — natural methods without harmful pesticides and chemicals.</li>
+            <li><strong>Exceptional Aroma</strong> sweet, nutty fragrance released during cooking.</li>
+            <li><strong>Long Grain Structure</strong> elongates further when cooked into fluffy, separate grains.</li>
+            <li><strong>Delicate Flavour</strong> complements dishes without overpowering other ingredients.</li>
+            <li><strong>GI Tagged Farms</strong> sourced from Geographical Indication tagged regions for authenticity.
+            </li>
+            <li><strong>Organic Farming</strong> natural methods without harmful pesticides and chemicals.</li>
           </ul>
-          <p class="section-text" style="margin-bottom: 1rem;">Ideal for biryani bliss, pulao perfection, and everyday side dishes that deserve a touch of sophistication.</p>
+          <p class="section-text" style="margin-bottom: 1rem;">Ideal for biryani bliss, pulao perfection, and everyday
+            side dishes that deserve a touch of sophistication.</p>
           <a class="btn btn-green" href="#enquiry">Enquire Now</a>
         </div>
       </div>
@@ -398,23 +522,43 @@
           </div>
         </div>
         <div class="enquiry-social">
-          <a href="https://www.facebook.com/profile.php?id=61555875476456" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24"><path d="M14 8h3V5h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4V9c0-.6.4-1 1-1z"/></svg>
+          <a href="https://www.facebook.com/profile.php?id=61555875476456" target="_blank" rel="noopener"
+            aria-label="Facebook">
+            <svg viewBox="0 0 24 24">
+              <path d="M14 8h3V5h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4V9c0-.6.4-1 1-1z" />
+            </svg>
           </a>
           <a href="https://www.instagram.com/bhartiyaindustries/" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm6.5-.9a1.1 1.1 0 11-2.2 0 1.1 1.1 0 012.2 0zM12 9a3 3 0 110 6 3 3 0 010-6z"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm6.5-.9a1.1 1.1 0 11-2.2 0 1.1 1.1 0 012.2 0zM12 9a3 3 0 110 6 3 3 0 010-6z" />
+            </svg>
           </a>
-          <a href="https://www.youtube.com/channel/UCNRLQwWhMKjb4azKdz9olEw" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg viewBox="0 0 24 24"><path d="M23 12s0-3.4-.4-5c-.2-.9-.9-1.6-1.8-1.8C18.9 4.6 12 4.6 12 4.6s-6.9 0-8.8.6C2.3 5.4 1.6 6.1 1.4 7 1 8.6 1 12 1 12s0 3.4.4 5c.2.9.9 1.6 1.8 1.8 1.9.6 8.8.6 8.8.6s6.9 0 8.8-.6c.9-.2 1.6-.9 1.8-1.8.4-1.6.4-5 .4-5zM9.8 15.5v-7l6 3.5-6 3.5z"/></svg>
+          <a href="https://www.youtube.com/channel/UCNRLQwWhMKjb4azKdz9olEw" target="_blank" rel="noopener"
+            aria-label="YouTube">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M23 12s0-3.4-.4-5c-.2-.9-.9-1.6-1.8-1.8C18.9 4.6 12 4.6 12 4.6s-6.9 0-8.8.6C2.3 5.4 1.6 6.1 1.4 7 1 8.6 1 12 1 12s0 3.4.4 5c.2.9.9 1.6 1.8 1.8 1.9.6 8.8.6 8.8.6s6.9 0 8.8-.6c.9-.2 1.6-.9 1.8-1.8.4-1.6.4-5 .4-5zM9.8 15.5v-7l6 3.5-6 3.5z" />
+            </svg>
           </a>
-          <a href="https://www.linkedin.com/company/bhartiyaindustries/about/?viewAsMember=true" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24"><path d="M6.5 8.5H3V21h3.5V8.5zM4.8 3A2 2 0 102 5a2 2 0 002.8-2zM21 21h-3.5v-6.1c0-1.7-.7-2.3-1.7-2.3s-1.9.8-1.9 2.4V21H10.5V8.5H14v1.4c.5-.9 1.7-1.8 3.5-1.8 2.6 0 3.5 1.5 3.5 4.4V21z"/></svg>
+          <a href="https://www.linkedin.com/company/bhartiyaindustries/about/?viewAsMember=true" target="_blank"
+            rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M6.5 8.5H3V21h3.5V8.5zM4.8 3A2 2 0 102 5a2 2 0 002.8-2zM21 21h-3.5v-6.1c0-1.7-.7-2.3-1.7-2.3s-1.9.8-1.9 2.4V21H10.5V8.5H14v1.4c.5-.9 1.7-1.8 3.5-1.8 2.6 0 3.5 1.5 3.5 4.4V21z" />
+            </svg>
           </a>
           <a href="https://x.com/bhartiyain77477" target="_blank" rel="noopener" aria-label="X">
-            <svg viewBox="0 0 24 24"><path d="M18.2 2H21l-6.6 7.5L22 22h-6.2l-4.3-6.3L6 22H3.2l7-8L2 2h6.3l3.9 5.8L18.2 2zm-1.1 18h1.7L7 3.9H5.2L17.1 20z"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M18.2 2H21l-6.6 7.5L22 22h-6.2l-4.3-6.3L6 22H3.2l7-8L2 2h6.3l3.9 5.8L18.2 2zm-1.1 18h1.7L7 3.9H5.2L17.1 20z" />
+            </svg>
           </a>
           <a href="https://www.quora.com/profile/Bhartiya-Industries" target="_blank" rel="noopener" aria-label="Quora">
-            <svg viewBox="0 0 24 24"><path d="M12.5 2C7.8 2 4 5.8 4 10.5c0 3.5 2.1 6.5 5.1 7.9L7.5 22l4.2-2.1c.3 0 .5.1.8.1 4.7 0 8.5-3.8 8.5-8.5S17.2 2 12.5 2zm.1 13.8c-1.1 0-2.1-.3-2.9-.9l-.7.5-.5-1.5.9-.6c-.5-.6-.8-1.4-.8-2.3 0-2.1 1.7-3.8 3.9-3.8 1.5 0 2.8.8 3.4 2l-1.3.7c-.3-.7-1-1.1-1.9-1.1-1.2 0-2.1.9-2.1 2.1s.9 2.1 2.1 2.1c.8 0 1.5-.4 1.9-1l1.3.7c-.6 1.2-1.9 2.1-3.4 2.1z"/></svg>
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12.5 2C7.8 2 4 5.8 4 10.5c0 3.5 2.1 6.5 5.1 7.9L7.5 22l4.2-2.1c.3 0 .5.1.8.1 4.7 0 8.5-3.8 8.5-8.5S17.2 2 12.5 2zm.1 13.8c-1.1 0-2.1-.3-2.9-.9l-.7.5-.5-1.5.9-.6c-.5-.6-.8-1.4-.8-2.3 0-2.1 1.7-3.8 3.9-3.8 1.5 0 2.8.8 3.4 2l-1.3.7c-.3-.7-1-1.1-1.9-1.1-1.2 0-2.1.9-2.1 2.1s.9 2.1 2.1 2.1c.8 0 1.5-.4 1.9-1l1.3.7c-.6 1.2-1.9 2.1-3.4 2.1z" />
+            </svg>
           </a>
         </div>
       </div>
@@ -433,7 +577,8 @@
     <div class="container footer-grid">
       <div class="footer-brand">
         <img src="images/logo.png" alt="Bhartiya Industries" />
-        <p>Bhartiya Industries: Premier rice milling, excellence in quality, sustainability, and global recognition. Nurturing nature, nourishing lives.</p>
+        <p>Bhartiya Industries: Premier rice milling, excellence in quality, sustainability, and global recognition.
+          Nurturing nature, nourishing lives.</p>
       </div>
       <div class="footer-col">
         <h4>Services</h4>
@@ -461,4 +606,5 @@
 
   <script src="js/main.js"></script>
 </body>
+
 </html>

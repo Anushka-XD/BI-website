@@ -21,6 +21,11 @@
   --header-h: 78px;
   --topbar-h: 40px;
   --font: "Montserrat", system-ui, sans-serif;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-sine: cubic-bezier(0.37, 0, 0.63, 1);
 }
 
 *,
@@ -128,14 +133,46 @@ button {
   fill: currentColor;
 }
 
+/* ---------- Ambient Living Canvas & Cursor Glow ---------- */
+#ambient-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 45;
+  opacity: 0.95;
+}
+
+.scroll-progress-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green-forest), var(--green), var(--whatsapp));
+  z-index: 1000;
+  width: 0%;
+  transition: width 0.05s linear;
+  pointer-events: none;
+}
+
+
 /* ---------- Main nav ---------- */
 .site-header {
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 100;
   height: var(--header-h);
+  transition: box-shadow 0.35s ease, background 0.35s ease;
+}
+
+.site-header.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.98);
 }
 
 .nav {
@@ -155,6 +192,11 @@ button {
 .logo img {
   height: 58px;
   width: auto;
+  transition: transform 0.4s var(--ease-spring), filter 0.4s ease;
+}
+
+.logo:hover img {
+  transform: scale(1.04) rotate(-1deg);
 }
 
 .nav-links {
@@ -167,7 +209,27 @@ button {
   font-size: 0.9375rem;
   font-weight: 500;
   color: var(--text);
-  transition: color 0.2s;
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .nav-links a:hover,
@@ -183,35 +245,71 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.8rem 1.75rem;
+  padding: 0.85rem 2rem;
   border-radius: 999px;
   font-size: 0.8125rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  transition: background 0.2s, color 0.2s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+  will-change: transform, box-shadow;
+  cursor: pointer;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 15%, rgba(255, 255, 255, 0.38) 50%, transparent 85%);
+  transform: translateX(-120%);
+  transition: transform 0.8s ease;
+  pointer-events: none;
+}
+
+.btn:hover::after {
+  transform: translateX(120%);
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-4px) scale(1.035);
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.95) !important;
+  transition: transform 0.08s ease !important;
+}
+
+.btn svg {
+  transition: transform 0.35s var(--ease-spring);
+}
+
+.btn:hover svg {
+  transform: translateX(5px) scale(1.15);
 }
 
 .btn-green {
   background: var(--green);
   color: var(--white);
+  box-shadow: 0 4px 16px rgba(79, 154, 69, 0.22);
 }
 
 .btn-green:hover {
   background: var(--green-dark);
+  box-shadow: 0 0 0 4px rgba(106, 181, 95, 0.3), 0 16px 36px rgba(79, 154, 69, 0.45), 0 0 24px rgba(106, 181, 95, 0.3);
 }
 
 .btn-white {
   background: var(--white);
   color: var(--text);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 }
 
 .btn-white:hover {
-  background: #f5f5f5;
+  background: #ffffff;
+  color: var(--green-forest);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.4), 0 16px 36px rgba(0, 0, 0, 0.18), 0 0 20px rgba(106, 181, 95, 0.25);
 }
 
 .btn-outline {
@@ -223,6 +321,24 @@ button {
 .btn-outline:hover {
   background: var(--white);
   color: var(--text);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.25), 0 16px 36px rgba(255, 255, 255, 0.28);
+}
+
+/* Dynamic button liquid ripple */
+.ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: rippleExpand 0.6s linear;
+  background-color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+@keyframes rippleExpand {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 
 .nav-toggle {
@@ -348,9 +464,24 @@ button {
 
 .hero-bg {
   position: absolute;
-  inset: 0;
+  inset: -15% 0;
   background: var(--green-forest) center / cover no-repeat;
   z-index: 0;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 25% 35%, rgba(106, 181, 95, 0.35) 0%, transparent 60%),
+              radial-gradient(circle at 80% 65%, rgba(61, 122, 54, 0.45) 0%, transparent 65%),
+              linear-gradient(135deg, rgba(47, 111, 237, 0.15) 0%, transparent 60%);
+  opacity: 0.85;
+  mix-blend-mode: overlay;
+  animation: ambientMeshFlow 17.3s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
 .hero-bg::after {
@@ -395,6 +526,8 @@ button {
   background: var(--green);
   color: var(--white);
   padding: 1.5rem 0;
+  position: relative;
+  z-index: 3;
 }
 
 .product-bar-grid {
@@ -411,11 +544,13 @@ button {
   gap: 0.65rem;
   color: var(--white);
   padding: 0.5rem;
-  transition: opacity 0.2s;
+  transition: transform 0.35s var(--ease-spring), opacity 0.25s;
+  will-change: transform;
 }
 
 .product-bar a:hover {
-  opacity: 0.85;
+  opacity: 1;
+  transform: translateY(-4px);
 }
 
 .product-icon {
@@ -426,6 +561,15 @@ button {
   display: grid;
   place-items: center;
   color: var(--green);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring);
+  animation: floatMiniIcon 6.8s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.product-bar a:hover .product-icon {
+  transform: scale(1.12) rotate(-3deg);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
 }
 
 .product-icon svg {
@@ -509,12 +653,49 @@ button {
   border-radius: 16px;
   overflow: hidden;
   border: 3px solid var(--green);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.5s var(--ease-spring), border-color 0.4s ease;
+  will-change: transform;
+  animation: floatOrganicFrame 9.4s var(--ease-sine) infinite alternate;
+}
+
+.split-media .frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle 320px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(106, 181, 95, 0.3) 0%,
+    rgba(79, 154, 69, 0.12) 45%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.split-media:hover .frame {
+  box-shadow: 0 28px 60px rgba(79, 154, 69, 0.36), 0 0 26px rgba(106, 181, 95, 0.35);
+}
+
+.split-media:hover .frame::after {
+  opacity: 1;
 }
 
 .split-media .frame img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  will-change: transform;
+  transform: translate3d(var(--img-pan-x, 0px), var(--img-pan-y, 0px), 0) scale(1.05);
+}
+
+.split-media:hover .frame img {
+  filter: contrast(1.04) brightness(1.03);
+  transform: translate3d(var(--img-pan-x, 0px), var(--img-pan-y, 0px), 0) scale(1.12);
 }
 
 .split-media .offset-bg {
@@ -526,6 +707,9 @@ button {
   left: -18px;
   bottom: -18px;
   z-index: -1;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  animation: floatOffsetSoft 11.7s ease-in-out infinite alternate;
 }
 
 .experience-badge {
@@ -542,8 +726,16 @@ button {
   align-items: center;
   justify-content: center;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   z-index: 2;
+  animation: floatOrganicBadge 8.3s var(--ease-sine) infinite;
+  will-change: transform;
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.35s ease;
+}
+
+.experience-badge:hover {
+  transform: translateY(-8px) scale(1.12) rotate(6deg);
+  box-shadow: 0 20px 44px rgba(79, 154, 69, 0.32);
 }
 
 .experience-badge strong {
@@ -567,6 +759,7 @@ button {
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin-top: 2.5rem;
+  perspective: 1200px;
 }
 
 .feature-card {
@@ -580,12 +773,56 @@ button {
   align-items: center;
   gap: 0.85rem;
   min-height: 280px;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring), border-color 0.3s ease;
+  will-change: transform;
+}
+
+.feature-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    380px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(106, 181, 95, 0.18),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.feature-card:hover::after {
+  opacity: 1;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.09);
+  border-color: rgba(106, 181, 95, 0.4);
 }
 
 .feature-card.featured {
   background: var(--green);
   border-color: var(--green);
   color: var(--white);
+}
+
+.feature-card.featured::after {
+  background: radial-gradient(
+    380px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(180, 235, 170, 0.25),
+    transparent 65%
+  );
+}
+
+.feature-card.featured:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 48px rgba(79, 154, 69, 0.35);
 }
 
 .feature-card.featured h3,
@@ -601,6 +838,13 @@ button {
   color: var(--green-forest);
   display: grid;
   place-items: center;
+  transition: transform 0.5s var(--ease-spring), background-color 0.3s ease;
+  animation: floatMiniIcon 7.7s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.feature-card:hover .card-icon {
+  transform: translateY(-4px) scale(1.1) rotate(4deg);
 }
 
 .feature-card.featured .card-icon {
@@ -638,6 +882,8 @@ button {
   display: grid;
   place-items: center;
   margin-top: auto;
+  transition: transform 0.35s var(--ease-spring), background 0.25s, border-color 0.25s;
+  will-change: transform;
 }
 
 .card-arrow svg {
@@ -646,6 +892,32 @@ button {
   stroke: var(--black);
   fill: none;
   stroke-width: 2;
+  transition: stroke 0.25s ease;
+}
+
+.card-arrow:hover {
+  transform: scale(1.15) translateX(3px);
+  background: var(--black);
+}
+
+.card-arrow:hover svg {
+  stroke: var(--white);
+}
+
+.feature-card.featured .card-arrow {
+  border-color: var(--white);
+}
+
+.feature-card.featured .card-arrow svg {
+  stroke: var(--white);
+}
+
+.feature-card.featured .card-arrow:hover {
+  background: var(--white);
+}
+
+.feature-card.featured .card-arrow:hover svg {
+  stroke: var(--green);
 }
 
 /* Image banner sections ---------- */
@@ -658,8 +930,21 @@ button {
 
 .banner-bg {
   position: absolute;
-  inset: 0;
+  inset: -15% 0;
   background: var(--green-forest) center / cover no-repeat;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.banner-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 30%, rgba(106, 181, 95, 0.32) 0%, transparent 65%),
+              radial-gradient(circle at 20% 75%, rgba(61, 122, 54, 0.4) 0%, transparent 60%);
+  animation: ambientMeshFlow 19.1s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .banner-bg::after {
@@ -667,11 +952,12 @@ button {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.48);
+  z-index: 2;
 }
 
 .banner-content {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   width: min(760px, 90%);
   margin-inline: auto;
   padding: 5rem 0;
@@ -702,11 +988,19 @@ button {
   margin-top: 2.5rem;
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .map-wrap img {
   width: min(780px, 100%);
   height: auto;
+  transition: transform 0.5s var(--ease-spring), filter 0.5s ease;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.05));
+}
+
+.map-wrap:hover img {
+  transform: scale(1.02);
+  filter: drop-shadow(0 14px 32px rgba(106, 181, 95, 0.14));
 }
 
 /* Features 2x2 ---------- */
@@ -722,6 +1016,11 @@ button {
   grid-template-columns: auto 1fr;
   gap: 0.9rem;
   align-items: start;
+  transition: transform 0.35s var(--ease-spring);
+}
+
+.feature-item:hover {
+  transform: translateX(4px);
 }
 
 .feature-item .mini-icon {
@@ -732,6 +1031,12 @@ button {
   color: var(--green);
   display: grid;
   place-items: center;
+  transition: transform 0.35s var(--ease-spring), background 0.3s ease;
+}
+
+.feature-item:hover .mini-icon {
+  transform: scale(1.1) rotate(5deg);
+  background: #daf0d7;
 }
 
 .feature-item .mini-icon svg {
@@ -759,6 +1064,8 @@ button {
 .rice-section {
   padding-block: 4.5rem;
   background: var(--white);
+  position: relative;
+  overflow: hidden;
 }
 
 .rice-section:nth-child(even) {
@@ -784,6 +1091,13 @@ button {
   color: var(--green-forest);
   font-size: 0.75rem;
   font-weight: 600;
+  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-spring), background-color 0.25s ease;
+  will-change: transform;
+}
+
+.chip:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 12px rgba(79, 154, 69, 0.18);
 }
 
 .rice-points {
@@ -798,6 +1112,12 @@ button {
   position: relative;
   color: var(--text-muted);
   font-size: 0.95rem;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.rice-points li:hover {
+  transform: translateX(3px);
+  color: var(--text);
 }
 
 .rice-points li::before {
@@ -809,6 +1129,11 @@ button {
   height: 7px;
   border-radius: 50%;
   background: var(--green);
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.rice-points li:hover::before {
+  transform: scale(1.3);
 }
 
 /* Enquiry ---------- */
@@ -816,6 +1141,7 @@ button {
   background: var(--white);
   text-align: center;
   padding-block: 5rem;
+  position: relative;
 }
 
 .enquiry h2 {
@@ -835,6 +1161,7 @@ button {
   gap: 1.25rem;
   justify-content: center;
   margin-bottom: 2rem;
+  perspective: 1000px;
 }
 
 .enquiry-card {
@@ -843,6 +1170,37 @@ button {
   padding: 1.75rem 1.5rem;
   text-align: center;
   background: var(--white);
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring), border-color 0.3s ease;
+  will-change: transform;
+}
+
+.enquiry-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    320px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(106, 181, 95, 0.16),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.enquiry-card:hover::after {
+  opacity: 1;
+}
+
+.enquiry-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+  border-color: rgba(106, 181, 95, 0.45);
 }
 
 .enquiry-card .label {
@@ -873,11 +1231,15 @@ button {
   padding: 0.4rem 0.9rem;
   border: 1px solid var(--green);
   border-radius: 999px;
+  transition: all 0.25s var(--ease-spring);
+  will-change: transform;
 }
 
 .copy-btn:hover {
   background: var(--green);
   color: var(--white);
+  transform: scale(1.05);
+  box-shadow: 0 4px 14px rgba(79, 154, 69, 0.25);
 }
 
 .copy-btn.copied {
@@ -900,11 +1262,14 @@ button {
   color: var(--white);
   display: grid;
   place-items: center;
-  transition: background 0.2s;
+  transition: transform 0.35s var(--ease-spring), background 0.25s, box-shadow 0.3s;
+  will-change: transform;
 }
 
 .enquiry-social a:hover {
   background: var(--green-dark);
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 8px 18px rgba(79, 154, 69, 0.3);
 }
 
 .enquiry-social svg {
@@ -919,6 +1284,17 @@ button {
   color: var(--white);
   text-align: center;
   padding: 3.5rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+  animation: ambientMeshFlow 14s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
 .cta-strip h2 {
@@ -948,6 +1324,11 @@ button {
   height: 64px;
   width: auto;
   margin-bottom: 1rem;
+  transition: transform 0.4s var(--ease-spring);
+}
+
+.footer-brand:hover img {
+  transform: scale(1.04);
 }
 
 .footer-brand p {
@@ -973,10 +1354,13 @@ button {
 .footer-col a {
   color: rgba(255, 255, 255, 0.85);
   font-size: 0.9rem;
+  transition: color 0.2s ease, transform 0.25s var(--ease-spring);
+  display: inline-block;
 }
 
 .footer-col a:hover {
   color: var(--green);
+  transform: translateX(4px);
 }
 
 .footer-bottom {
@@ -1006,8 +1390,19 @@ button {
 
 .page-hero-bg {
   position: absolute;
-  inset: 0;
+  inset: -15% 0;
   background: var(--green-forest) center / cover no-repeat;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.page-hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(106, 181, 95, 0.35) 0%, transparent 60%);
+  animation: ambientMeshFlow 16.5s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
 .page-hero-bg::after {
@@ -1025,6 +1420,9 @@ button {
   padding: 2rem 2.25rem;
   margin: 0 0 3rem;
   max-width: 420px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+  animation: floatHeroCard 8.7s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 .page-hero-card h1 {
@@ -1083,6 +1481,14 @@ button {
   margin: 0 auto;
 }
 
+.stack-sections article {
+  transition: transform 0.4s var(--ease-spring);
+}
+
+.stack-sections article:hover {
+  transform: translateY(-3px);
+}
+
 .stack-sections article h3 {
   font-size: 1.25rem;
   margin-bottom: 0.65rem;
@@ -1093,11 +1499,13 @@ button {
   color: var(--text-muted);
 }
 
-/* Reveal on scroll */
+/* Reveal on scroll with dynamic sliding choreography */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .reveal.visible {
@@ -1105,10 +1513,269 @@ button {
   transform: translateY(0);
 }
 
-/* Topo-ish subtle pattern (flat, no gradient) */
+/* Dynamic choreographed slide into viewpoint from sides for split sections */
+.split .split-copy {
+  opacity: 0;
+  transform: translate3d(-175px, 25px, 0) rotate(-3.5deg) scale(0.92);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.split .split-media {
+  opacity: 0;
+  transform: translate3d(175px, 25px, 0) rotate(3.5deg) scale(0.92);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.06s,
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.06s;
+  will-change: opacity, transform;
+}
+
+.split.reverse .split-copy {
+  transform: translate3d(175px, 25px, 0) rotate(3.5deg) scale(0.92);
+}
+
+.split.reverse .split-media {
+  transform: translate3d(-175px, 25px, 0) rotate(-3.5deg) scale(0.92);
+}
+
+.reveal.visible .split-copy,
+.reveal.visible .split-media,
+.split.visible .split-copy,
+.split.visible .split-media {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+}
+
+/* Dynamic text cascade inside split copy */
+.split-copy h2,
+.split-copy p,
+.split-copy .features-list,
+.split-copy .btn {
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.split:not(.visible) .split-copy h2 {
+  opacity: 0;
+  transform: translateY(22px) scale(0.96);
+}
+
+.split:not(.visible) .split-copy p {
+  opacity: 0;
+  transform: translateY(18px);
+  transition-delay: 0.06s;
+}
+
+.split:not(.visible) .split-copy .features-list {
+  opacity: 0;
+  transform: translateY(18px);
+  transition-delay: 0.12s;
+}
+
+.split:not(.visible) .split-copy .btn {
+  opacity: 0;
+  transform: translateY(16px) scale(0.94);
+  transition-delay: 0.18s;
+}
+
+/* Feature cards slide choreography from alternating sides */
+.feature-card:nth-child(1) {
+  opacity: 0;
+  transform: translate3d(-145px, 40px, 0) rotate(-4deg) scale(0.91);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-card:nth-child(2) {
+  opacity: 0;
+  transform: translate3d(0, 85px, 0) scale(0.86);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.12s,
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+}
+
+.feature-card:nth-child(3) {
+  opacity: 0;
+  transform: translate3d(145px, 40px, 0) rotate(4deg) scale(0.91);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.24s,
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.24s;
+}
+
+.reveal.visible .feature-card {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+}
+
+/* Enquiry cards slide in dramatically from left and right */
+.enquiry-card:nth-child(1) {
+  opacity: 0;
+  transform: translate3d(-155px, 35px, 0) rotate(-3.5deg) scale(0.92);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.enquiry-card:nth-child(2) {
+  opacity: 0;
+  transform: translate3d(155px, 35px, 0) rotate(3.5deg) scale(0.92);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.14s,
+              transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.14s;
+}
+
+.reveal.visible .enquiry-card {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+}
+
+/* Dynamic expanding accent bar on headings */
+.section-header h2,
+.split-copy h2 {
+  position: relative;
+}
+
+.section-header h2::after,
+.split-copy h2::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--whatsapp));
+  border-radius: 2px;
+  margin-top: 0.65rem;
+  transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.reveal.visible .section-header h2::after,
+.split.visible .split-copy h2::after,
+.reveal.visible .split-copy h2::after {
+  width: 68px;
+}
+
+/* Features list interactive glint and slide */
+.features-list li {
+  transition: transform 0.35s var(--ease-spring), color 0.3s ease;
+}
+
+.features-list li:hover {
+  transform: translateX(8px);
+  color: var(--green-forest);
+}
+
+.features-list li svg {
+  transition: transform 0.35s var(--ease-spring), color 0.3s ease;
+}
+
+.features-list li:hover svg {
+  transform: scale(1.25) rotate(10deg);
+  color: var(--green);
+}
+
+/* Dynamic card arrow motion */
+.card-arrow {
+  transition: transform 0.35s var(--ease-spring), background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover .card-arrow {
+  transform: translateX(8px) scale(1.16) rotate(-6deg);
+  box-shadow: 0 6px 18px rgba(79, 154, 69, 0.35);
+}
+
+/* Map wrap smooth slide and scale */
+.map-wrap {
+  opacity: 0;
+  transform: translate3d(0, 60px, 0) scale(0.92);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
+              transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.reveal.visible .map-wrap {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Topo-ish subtle pattern (flat, continuous organic drift) */
 .pattern-bg {
   background-color: var(--white);
   background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40c20-10 40-10 60 0s40 10 60 0' fill='none' stroke='%23e8e8e8' stroke-width='1'/%3E%3Cpath d='M0 20c20-8 40-8 60 0s40 8 60 0' fill='none' stroke='%23efefef' stroke-width='1'/%3E%3Cpath d='M0 60c20-8 40-8 60 0s40 8 60 0' fill='none' stroke='%23efefef' stroke-width='1'/%3E%3C/svg%3E");
+  background-position: 0 0;
+  animation: patternDrift 140s linear infinite;
+}
+
+/* ---------- Keyframe Animations ---------- */
+@keyframes ambientMeshFlow {
+  0% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.08) translate(-2%, 2%);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(1.04) translate(3%, -1%);
+    opacity: 0.75;
+  }
+}
+
+@keyframes floatOrganicBadge {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(3px, -7px, 0) rotate(1.2deg);
+  }
+  67% {
+    transform: translate3d(-3px, -3px, 0) rotate(-0.8deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes floatOffsetSoft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-6px, 6px, 0);
+  }
+}
+
+@keyframes floatMiniIcon {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-4px) scale(1.04);
+  }
+}
+
+@keyframes floatHeroCard {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes floatOrganicFrame {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(2px, -6px, 0) rotate(0.4deg);
+  }
+  100% {
+    transform: translate3d(-3px, -2px, 0) rotate(-0.4deg);
+  }
+}
+
+@keyframes patternDrift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 80px 80px;
+  }
 }
 
 /* ---------- Responsive ---------- */
@@ -1212,3 +1879,86 @@ button {
     margin: 0 4% 2rem;
   }
 }
+
+/* ---------- Smooth Interactive Floating Text & Words ---------- */
+.float-word {
+  display: inline-block;
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.18, 1.25, 0.35, 1),
+              color 0.25s ease,
+              text-shadow 0.3s ease;
+  will-change: transform;
+  cursor: default;
+}
+
+/* Primary hover on word: lifts up smoothly */
+.float-word:hover {
+  transform: translateY(-5px) scale(1.055);
+  color: var(--green-forest);
+  text-shadow: 0 4px 14px rgba(106, 181, 95, 0.28);
+}
+
+/* Fluid wave ripple on adjacent words */
+.float-word:hover + .float-word {
+  transform: translateY(-2.5px) scale(1.025);
+}
+
+.float-word:has(+ .float-word:hover) {
+  transform: translateY(-2.5px) scale(1.025);
+}
+
+/* Headings float with subtle organic rotation */
+h1 .float-word:hover,
+h2 .float-word:hover,
+h3 .float-word:hover {
+  transform: translateY(-6px) scale(1.08) rotate(-1.5deg);
+  color: var(--green);
+}
+
+/* On dark, green, or hero backgrounds */
+.hero .float-word:hover,
+.page-hero .float-word:hover,
+.banner-section .float-word:hover,
+.enquiry-section .float-word:hover,
+.site-footer .float-word:hover,
+.feature-card.featured .float-word:hover,
+.product-bar .float-word:hover,
+.page-hero-card .float-word:hover {
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.7), 0 4px 18px rgba(106, 181, 95, 0.5);
+}
+
+/* Interactive links containing float words retain pointer */
+a .float-word {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  #ambient-canvas {
+    display: none !important;
+  }
+
+  .pattern-bg {
+    animation: none !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .float-word {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
